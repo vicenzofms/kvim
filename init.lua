@@ -185,18 +185,25 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 })
 
 -- Limpa os snippets presets caso saia do modo de insert
-vim.api.nvim_create_autocmd('ModeChanged', {
-  pattern = '*',
-  callback = function()
-    if
-      ((vim.v.event.old_mode == 's' and vim.v.event.new_mode == 'n') or vim.v.event.old_mode == 'i')
-      and require('luasnip').session.current_nodes[vim.api.nvim_get_current_buf()]
-      and not require('luasnip').session.jump_active
-    then
-      require('luasnip').unlink_current()
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd('ModeChanged', {
+--   group = vim.api.nvim_create_augroup('UnlinkLuaSnipSnippetOnModeChange', {
+--     clear = true,
+--   }),
+--   pattern = { 's:n', 'i:*' },
+--   desc = 'Forget the current snippet when leaving the insert mode',
+--   callback = function(evt)
+--     local luasnip = require 'luasnip'
+--     -- If we have n active nodes, n - 1 will still remain after a `unlink_current()` call.
+--     -- We unlink all of them by wrapping the calls in a loop.
+--     while true do
+--       if luasnip.session and luasnip.session.current_nodes[evt.buf] and not luasnip.session.jump_active then
+--         luasnip.unlink_current()
+--       else
+--         break
+--       end
+--     end
+--   end,
+-- })
 
 ---@type vim.Option
 local rtp = vim.opt.rtp
@@ -638,18 +645,35 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         clangd = {},
-        -- gopls = {},
+        gopls = {},
         pyright = {},
         rust_analyzer = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {},
-        --
-
+        svelte = {},
+        html = {
+          filetypes = { 'html', 'htmlangular' },
+        },
+        angularls = {},
+        tailwindcss = {
+          filetypes = {
+            'templ',
+            'vue',
+            'html',
+            'astro',
+            'svelte',
+            'javascript',
+            'typescript',
+            'react',
+            'htmlangular',
+          },
+          settings = {
+            tailwindCSS = {
+              includeLanguages = {
+                scss = 'css',
+              },
+            },
+          },
+        },
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
@@ -693,7 +717,6 @@ require('lazy').setup({
 
       for server_name, server in pairs(servers) do
         server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-
         vim.lsp.config(server_name, server)
         vim.lsp.enable(server_name)
       end
@@ -782,6 +805,11 @@ require('lazy').setup({
           },
         },
         config = function()
+          require('luasnip').setup {
+            history = true,
+            region_check_events = 'InsertEnter',
+            delete_check_events = 'TextChanged,InsertLeave',
+          }
           require('luasnip.loaders.from_vscode').lazy_load()
         end,
       },
@@ -863,6 +891,13 @@ require('lazy').setup({
           enable_close = true, -- Auto close tags
           enable_rename = true, -- Auto rename pairs of tags
           enable_close_on_slash = true, -- Auto close on trailing </
+        },
+        per_filetype = {
+          ['htmlangular'] = {
+            enable_close = true, -- Auto close tags
+            enable_rename = true, -- Auto rename pairs of tags
+            enable_close_on_slash = true, -- Auto close on trailing </
+          },
         },
       }
     end,
