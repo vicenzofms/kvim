@@ -841,6 +841,7 @@ require('lazy').setup({
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
         preset = 'enter',
+        ['<C-f>'] = { 'show' },
         ['<C-k>'] = { 'select_prev', 'fallback' },
         ['<C-j>'] = { 'select_next', 'fallback' },
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
@@ -965,12 +966,9 @@ require('lazy').setup({
     config = function()
       -- Automatically start treesitter for supported filetypes
       vim.api.nvim_create_autocmd('FileType', {
-        callback = function(args)
-          local lang = vim.treesitter.language.get_lang(args.match) or args.match
-          local installed = require('nvim-treesitter').get_installed 'parsers'
-          if vim.tbl_contains(installed, lang) then
-            vim.treesitter.start(args.buf)
-          end
+        pattern = require('nvim-treesitter.parsers').available_parsers(),
+        callback = function()
+          vim.treesitter.start()
         end,
       })
     end,
