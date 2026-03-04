@@ -53,9 +53,11 @@ return {
       enabled = true,
       exclude = {
         'node_modules',
+        'dist',
       },
       sources = {
         explorer = {
+          hidden = true,
           layout = {
             layout = {
               position = 'right',

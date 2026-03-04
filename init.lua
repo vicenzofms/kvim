@@ -181,6 +181,9 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, 'LineNrBelow', {
       fg = '#7a7a7a',
     })
+    vim.api.nvim_set_hl(0, 'NonText', {
+      fg = '#7a7a7a',
+    })
   end,
 })
 
@@ -650,10 +653,14 @@ require('lazy').setup({
         rust_analyzer = {},
         ts_ls = {},
         svelte = {},
+        cssls = {},
         html = {
           filetypes = { 'html', 'htmlangular' },
         },
-        angularls = {},
+        angularls = {
+          filetypes = { 'typescript', 'html', 'typescriptreact', 'htmlangular' },
+          root_dir = { 'angular.json', 'package.json', 'tsconfig.json' },
+        },
         tailwindcss = {
           filetypes = {
             'templ',
@@ -966,9 +973,12 @@ require('lazy').setup({
     config = function()
       -- Automatically start treesitter for supported filetypes
       vim.api.nvim_create_autocmd('FileType', {
-        pattern = require('nvim-treesitter.parsers').available_parsers(),
-        callback = function()
-          vim.treesitter.start()
+        callback = function(args)
+          local lang = vim.treesitter.language.get_lang(args.match) or args.match
+          local installed = require('nvim-treesitter').get_installed 'parsers'
+          if vim.tbl_contains(installed, lang) then
+            vim.treesitter.start(args.buf)
+          end
         end,
       })
     end,
