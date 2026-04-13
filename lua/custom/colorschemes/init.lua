@@ -21,5 +21,10 @@ local temas = {
   { 'bluz71/vim-moonfly-colors', name = 'moonfly', lazy = false, priority = 1000 },
   { 'neanias/everforest-nvim', lazy = false, priority = 1000 },
   { 'wtfox/jellybeans.nvim', lazy = false, priority = 1000 },
+  { 'ember-theme/nvim', lazy = false, priority = 1000 },
+  { 'AstroNvim/astrotheme', lazy = false, priority = 1000, opts = {
+    pallete = 'astrodark',
+  } },
+  { 'EdenEast/nightfox.nvim', lazy = false, priority = 1000 },
 }
 return temas

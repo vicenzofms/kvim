@@ -659,7 +659,7 @@ require('lazy').setup({
         },
         angularls = {
           filetypes = { 'typescript', 'html', 'typescriptreact', 'htmlangular' },
-          root_dir = { 'angular.json', 'package.json', 'tsconfig.json' },
+          root_dir = require('lspconfig.util').root_pattern('angular.json', 'package.json', 'tsconfig.json'),
         },
         tailwindcss = {
           filetypes = {
