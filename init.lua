@@ -955,10 +955,10 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    main = 'nvim-treesitter.config', -- Sets main module to use for opts
+    branch = 'main',
+    main = 'nvim-treesitter', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -970,15 +970,35 @@ require('lazy').setup({
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
+    init = function()
+      local ensureInstalled = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+      }
+      local alreadyInstalled = require('nvim-treesitter.config').get_installed()
+      local parsersToInstall = vim
+        .iter(ensureInstalled)
+        :filter(function(parser)
+          return not vim.tbl_contains(alreadyInstalled, parser)
+        end)
+        :totable()
+      require('nvim-treesitter').install(parsersToInstall)
+    end,
     config = function()
       -- Automatically start treesitter for supported filetypes
       vim.api.nvim_create_autocmd('FileType', {
         callback = function(args)
-          local lang = vim.treesitter.language.get_lang(args.match) or args.match
-          local installed = require('nvim-treesitter').get_installed 'parsers'
-          if vim.tbl_contains(installed, lang) then
-            vim.treesitter.start(args.buf)
-          end
+          pcall(vim.treesitter.start)
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end,
       })
     end,
