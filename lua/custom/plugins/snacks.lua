@@ -65,6 +65,15 @@ return {
           },
         },
         colorschemes = {
+          layout = {
+            preset = 'select',
+            layout = {
+              title = 'Temas & Cores ',
+              max_width = 50,
+              height = 0.8,
+            },
+            hidden = {},
+          },
           confirm = function(picker, item)
             picker:close()
             if item then

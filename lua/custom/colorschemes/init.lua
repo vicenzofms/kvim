@@ -26,5 +26,6 @@ local temas = {
     pallete = 'astrodark',
   } },
   { 'EdenEast/nightfox.nvim', lazy = false, priority = 1000 },
+  { 'mrpbennett/boo-berry.nvim', lazy = false, priority = 1000 },
 }
 return temas
