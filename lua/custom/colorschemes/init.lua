@@ -17,7 +17,14 @@ local temas = {
   { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
   { 'sainnhe/sonokai', priority = 1000 },
   { 'rebelot/kanagawa.nvim', priority = 1000 },
-  { 'ellisonleao/gruvbox.nvim', priority = 1000, config = true },
+  {
+    'sainnhe/gruvbox-material',
+    priority = 1000,
+    config = function()
+      vim.g.gruvbox_material_enable_italic = true
+      vim.g.gruvbox_material_float_style = 'dim'
+    end,
+  },
   { 'bluz71/vim-moonfly-colors', name = 'moonfly', lazy = false, priority = 1000 },
   { 'neanias/everforest-nvim', lazy = false, priority = 1000 },
   { 'wtfox/jellybeans.nvim', lazy = false, priority = 1000 },
