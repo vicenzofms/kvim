@@ -118,7 +118,7 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Mover foco para janela abai
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Mover foco para janela acima' })
 
 -- Selecionar todo o código
-vim.keymap.set('n', '<leader>va', 'gg0vG$', { desc = 'Selecionar o código todo' })
+vim.keymap.set('n', '<leader>va', 'ggVG', { desc = 'Selecionar o código todo' })
 
 -- Transparência
 vim.keymap.set('n', '<leader>tt', '<cmd>TransparentToggle<CR>', { desc = 'Toggle Transparência' })
