@@ -28,6 +28,28 @@ vim.o.showmode = false
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.schedule(function()
+  if vim.fn.has 'wsl' == 1 then
+    vim.g.clipboard = {
+      name = 'WslClipboard',
+      copy = {
+        ['+'] = '/mnt/c/Windows/System32/clip.exe',
+        ['*'] = '/mnt/c/Windows/System32/clip.exe',
+      },
+      paste = {
+        ['+'] = {
+          '/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe',
+          '-c',
+          '[Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+        },
+        ['*'] = {
+          '/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe',
+          '-c',
+          '[Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+        },
+      },
+      cache_enabled = 0,
+    }
+  end
   vim.o.clipboard = 'unnamedplus'
 end)
 
