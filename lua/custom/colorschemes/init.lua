@@ -34,5 +34,16 @@ local temas = {
   } },
   { 'EdenEast/nightfox.nvim', lazy = false, priority = 1000 },
   { 'mrpbennett/boo-berry.nvim', lazy = false, priority = 1000 },
+  {
+    'jpwol/thorn.nvim',
+    lazy = false,
+    priority = 1000,
+    opts = {
+      styles = {
+        keywords = { italic = true, bold = true },
+        strings = { italic = false, bold = false },
+      },
+    },
+  },
 }
 return temas

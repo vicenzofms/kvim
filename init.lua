@@ -123,6 +123,7 @@ vim.keymap.set('n', '<leader>nh', '<cmd>nohlsearch<CR>', { desc = 'Limpar buscas
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Abrir lista de quickfix do Diagnostic' })
+vim.keymap.set('n', '<leader>do', vim.diagnostic.open_float, { desc = 'Mostrar diagnóstico' })
 
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
