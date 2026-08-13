@@ -45,5 +45,21 @@ local temas = {
       },
     },
   },
+  {
+    'pjhamera/national-parks-themes',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('parks').setup {
+        variant = 'dark',
+        dim_inactive = true,
+        styles = {
+          comments = { italic = true },
+          keywords = { italic = true, bold = true },
+          booleans = { bold = true },
+        },
+      }
+    end,
+  },
 }
 return temas

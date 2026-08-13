@@ -146,6 +146,9 @@ vim.keymap.set('n', '<leader>va', 'ggVG', { desc = 'Selecionar o código todo' }
 -- Transparência
 vim.keymap.set('n', '<leader>tt', '<cmd>TransparentToggle<CR>', { desc = 'Toggle Transparência' })
 
+-- Line wrap
+vim.keymap.set('n', '<leader>tw', ':set wrap!<CR>', { desc = 'Toggle Line Wrap', silent = true })
+
 -- Janelas
 vim.keymap.set('n', '<leader>sv', '<C-w>v', { desc = 'Dividir tela verticalmente' })
 vim.keymap.set('n', '<leader>sh', '<C-w>s', { desc = 'Dividir tela horizontalmente' })
