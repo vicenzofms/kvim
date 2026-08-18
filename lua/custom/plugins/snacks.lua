@@ -56,14 +56,54 @@ return {
         'dist',
       },
       sources = {
+        smart = {
+          title = ' Buscar', -- troca "Smart" por "Buscar" + ícone de lupa
+          transform = function(item, ctx)
+            -- o smart picker já usa transform = "unique_file" pra deduplicar;
+            -- como só dá pra ter UM transform, chamo a função original manualmente
+            -- antes de adicionar o ícone, senão perde a deduplicação
+            local keep = require('snacks.picker.transform').unique_file(item, ctx)
+            if keep == false then
+              return false
+            end
+            local ok, path = pcall(Snacks.picker.util.path, item)
+            if ok and path then
+              local icon = Snacks.util.icon(path, 'file', { fallback = ctx.picker.opts.icons.files })
+              item.preview_title = vim.trim(icon) .. ' ' .. vim.fn.fnamemodify(path, ':t')
+            end
+          end,
+        },
         explorer = {
           ignored = true,
           hidden = true,
+          title = '󰉋 Arquivos', -- troca o texto de "{title}" (troque o ícone se seu font não tiver esse glyph)
           layout = {
             layout = {
               position = 'right',
+              width = 35, -- mais fino (default do preset sidebar é 40)
+              min_width = 35,
+              box = 'vertical',
+              { win = 'input', height = 1, border = true, title = '{title}', title_pos = 'center' },
+              { win = 'list', border = 'none' },
+              { win = 'preview', title = '{preview}', height = 0.4, border = 'top' },
             },
           },
+        },
+        grep = {
+          transform = function(item, ctx)
+            -- o smart picker já usa transform = "unique_file" pra deduplicar;
+            -- como só dá pra ter UM transform, chamo a função original manualmente
+            -- antes de adicionar o ícone, senão perde a deduplicação
+            local keep = require('snacks.picker.transform').unique_file(item, ctx)
+            if keep == false then
+              return false
+            end
+            local ok, path = pcall(Snacks.picker.util.path, item)
+            if ok and path then
+              local icon = Snacks.util.icon(path, 'file', { fallback = ctx.picker.opts.icons.files })
+              item.preview_title = vim.trim(icon) .. ' ' .. vim.fn.fnamemodify(path, ':t')
+            end
+          end,
         },
         colorschemes = {
           layout = {
