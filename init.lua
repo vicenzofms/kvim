@@ -193,26 +193,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 
--- Garante que os comentários e os números de linha sejam sempre relativamente visíveis, usando cores pré-definidas
--- mesmo em um ambiente transparente
-vim.api.nvim_create_autocmd('ColorScheme', {
-  callback = function()
-    vim.api.nvim_set_hl(0, 'Comment', {
-      fg = '#a4a4a4',
-      italic = true,
-    })
-    vim.api.nvim_set_hl(0, 'LineNrAbove', {
-      fg = '#7a7a7a',
-    })
-    vim.api.nvim_set_hl(0, 'LineNrBelow', {
-      fg = '#7a7a7a',
-    })
-    vim.api.nvim_set_hl(0, 'NonText', {
-      fg = '#7a7a7a',
-    })
-  end,
-})
-
 -- Limpa os snippets presets caso saia do modo de insert
 -- vim.api.nvim_create_autocmd('ModeChanged', {
 --   group = vim.api.nvim_create_augroup('UnlinkLuaSnipSnippetOnModeChange', {
