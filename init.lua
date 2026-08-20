@@ -5,7 +5,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- Faz o número da sua linha aparecer
 vim.o.number = true
@@ -306,7 +306,12 @@ require('lazy').setup({
       -- Document existing key chains
       spec = {
         { '<leader>b', group = 'Buffers' },
+        { '<leader>d', group = 'Diagnóstico' },
+        { '<leader>m', group = 'Match' },
         { '<leader>s', group = 'Splits' },
+        { '<leader>n', group = 'Notificações e nohl' },
+        { '<leader>t', group = 'Toggles' },
+        { '<leader>v', group = 'Visualizar' },
         { '<leader>f', group = 'Arquivos' },
         { '<leader>l', group = 'Lazy (e outros)', mode = { 'n', 'v' } },
       },
