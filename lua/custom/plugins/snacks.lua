@@ -94,15 +94,6 @@ return {
           end,
         },
         colorschemes = {
-          layout = {
-            preset = 'select',
-            layout = {
-              title = 'Temas & Cores ',
-              max_width = 50,
-              height = 0.8,
-            },
-            hidden = {},
-          },
           confirm = function(picker, item)
             picker:close()
             if item then
@@ -174,7 +165,18 @@ return {
     {
       '<leader>c',
       function()
-        Snacks.picker.colorschemes()
+        local theme = (vim.g.colors_name or 'default')
+        Snacks.picker.colorschemes {
+          layout = {
+            preset = 'select',
+            layout = {
+              title = 'Temas (Atual: ' .. theme .. ') ',
+              max_width = 50,
+              height = 0.8,
+            },
+            hidden = {},
+          },
+        }
       end,
       desc = 'Abrir temas',
     },
