@@ -27,28 +27,25 @@ vim.o.showmode = false
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
+-- No WSL usa o win32yank (rápido, UTF-8 e converte CRLF). Instale em ~/.local/bin:
+--   https://github.com/equalsraf/win32yank/releases
 vim.schedule(function()
   if vim.fn.has 'wsl' == 1 then
-    vim.g.clipboard = {
-      name = 'WslClipboard',
-      copy = {
-        ['+'] = '/mnt/c/Windows/System32/clip.exe',
-        ['*'] = '/mnt/c/Windows/System32/clip.exe',
-      },
-      paste = {
-        ['+'] = {
-          '/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe',
-          '-c',
-          '[Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    local win32yank = vim.fn.expand '~/.local/bin/win32yank.exe'
+    if vim.fn.executable(win32yank) == 1 then
+      vim.g.clipboard = {
+        name = 'win32yank-wsl',
+        copy = {
+          ['+'] = { win32yank, '-i', '--crlf' },
+          ['*'] = { win32yank, '-i', '--crlf' },
         },
-        ['*'] = {
-          '/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe',
-          '-c',
-          '[Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+        paste = {
+          ['+'] = { win32yank, '-o', '--lf' },
+          ['*'] = { win32yank, '-o', '--lf' },
         },
-      },
-      cache_enabled = 0,
-    }
+        cache_enabled = true,
+      }
+    end
   end
   vim.o.clipboard = 'unnamedplus'
 end)
