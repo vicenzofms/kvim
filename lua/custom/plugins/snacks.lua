@@ -161,6 +161,14 @@ return {
       end,
       desc = 'Abrir LazyGit',
     },
+    -- Dashboard
+    {
+      '<leader>vd',
+      function()
+        Snacks.dashboard()
+      end,
+      desc = 'Visualizar Dashboard',
+    },
     -- Colorschemes
     {
       '<leader>c',

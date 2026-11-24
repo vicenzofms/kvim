@@ -326,6 +326,7 @@ várias variantes, a lista final que aparece no picker passa das **140 opções*
 | `<leader>lL` / `<leader>lm` | Abrir Lazy / Mason                              |
 | `<leader>nn`                | Histórico de notificações                       |
 | `<leader>va`                | Selecionar o arquivo todo                       |
+| `<leader>vd`                | Visualizar a dashboard                          |
 | `<A-j>` / `<A-k>`           | Mover a linha para baixo / cima                 |
 | `<Esc><Esc>`                | Sair do modo terminal                           |
 
